@@ -1,0 +1,4 @@
+flask
+joblib
+scikit-learn
+gunicorn==25.3.0
