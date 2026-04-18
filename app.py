@@ -16,7 +16,7 @@ def home():
 def check():
     url = request.form["url"]
 
-    # Extract features as dict
+    # Extract dict
     features = extract_features(url)
     feature_list = list(features.values())  # convert to list for ML model
 
