@@ -16,12 +16,18 @@ def home():
 @app.route("/check", methods=["POST"])
 def check():
     url = request.form["url"]
-    features = extract_features(url)
-    prediction = model.predict([features])[0]
 
+    # Extract features (dict + list)
+    features = extract_features(url)
+    feature_list = list(features.values())
+
+    # Predict using ML model
+    prediction = model.predict([feature_list])[0]
     result = "Phishing" if prediction == 1 else "Legitimate"
+
+    # Pass dict to template for breakdown
     return render_template("result.html", url=url, result=result, features=features)
 
 if __name__ == "__main__":
-    # Local testing (Render will use gunicorn)
     app.run(debug=True)
+

@@ -1,9 +1,10 @@
 def extract_features(url):
-    # Example placeholder features
+    # Example features for phishing detection
     features = {
         "url_length": len(url),
-        "has_https": 1 if "https" in url else 0,
-        "contains_at_symbol": 1 if "@" in url else 0
+        "has_https": 1 if url.startswith("https") else 0,
+        "contains_at_symbol": 1 if "@" in url else 0,
+        "suspicious_words": 1 if any(word in url.lower() for word in ["login", "secure", "bank", "update", "free", "verify"]) else 0
     }
-    # Convert dict to list for ML model
-    return list(features.values())
+    # Return dict (for template) — model will use values list
+    return features
