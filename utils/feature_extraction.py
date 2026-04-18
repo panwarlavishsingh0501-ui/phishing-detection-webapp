@@ -6,5 +6,4 @@ def extract_features(url):
         "contains_at_symbol": 1 if "@" in url else 0,
         "suspicious_words": 1 if any(word in url.lower() for word in ["login", "secure", "bank", "update", "free", "verify"]) else 0
     }
-    # Return dict (for template)
-    return features
+    return features   # ✅ return dict only
