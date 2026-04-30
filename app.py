@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import os, joblib
+import pandas as pd
 from utils.feature_extraction import extract_features
 
 app = Flask(__name__)
@@ -16,12 +17,14 @@ def home():
 def check():
     url = request.form["url"]
 
-    # Extract dict
+    # Extract features as dict
     features = extract_features(url)
-    feature_list = list(features.values())  # convert to list for ML model
+
+    # Convert dict → DataFrame with same feature names
+    feature_df = pd.DataFrame([features])
 
     # Predict
-    prediction = model.predict([feature_list])[0]
+    prediction = model.predict(feature_df)[0]
     result = "Phishing" if prediction == 1 else "Legitimate"
 
     # Pass dict to template

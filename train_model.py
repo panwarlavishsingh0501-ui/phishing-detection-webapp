@@ -1,12 +1,20 @@
+import pandas as pd
 from sklearn.linear_model import LogisticRegression
 import joblib
 import os
 
-# Ensure models folder exists
+# Dataset load karo
+data = pd.read_csv("data/phishing_dataset.csv")
+
+X = data.drop("label", axis=1)   # Features
+y = data["label"]                # Target
+
+# Model train karo
+model = LogisticRegression(max_iter=1000)
+model.fit(X, y)
+
+# Save trained model
 os.makedirs("models", exist_ok=True)
+joblib.dump(model, "models/phishing_model.pkl")
 
-# Dummy model banate hain (sirf testing ke liye)
-dummy_model = LogisticRegression()
-joblib.dump(dummy_model, "models/phishing_model.pkl")
-
-print("Dummy model saved successfully!")
+print("✅ Trained phishing detection model saved successfully!")
