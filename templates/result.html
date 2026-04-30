@@ -1,22 +1,18 @@
-<!DOCTYPE html>
 <html>
-
 <head>
     <title>Result</title>
 </head>
-
 <body>
     <h2>Analysis Result</h2>
     <p>URL: {{ url }}</p>
     <p>Status: <strong>{{ result }}</strong></p>
+    <p>Risk Score: <strong>{{ score }}%</strong></p>
+
     <h3>Feature Breakdown:</h3>
     <ul>
         {% for key, value in features.items() %}
         <li>{{ key }}: {{ value }}</li>
         {% endfor %}
     </ul>
-
 </body>
-
 </html>
-<h3>Feature Breakdown:</h3>

@@ -9,6 +9,24 @@ app = Flask(__name__)
 model_path = os.path.join(os.path.dirname(__file__), "models", "phishing_model.pkl")
 model = joblib.load(model_path)
 
+# Risk score function
+def calculate_score(features):
+    score = 0
+
+    # HTTPS missing → risky
+    if features["has_https"] == 0:
+        score += 30
+
+    # Suspicious words present → risky
+    if features["suspicious_words"] == 1:
+        score += 40
+
+    # Long URL → risky
+    if features["url_length"] > 100:
+        score += 30
+
+    return min(score, 100)  # normalize to 100
+
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -17,17 +35,18 @@ def home():
 def check():
     url = request.form["url"]
 
-    # Extract dict with only training features
+    # Extract features
     features = extract_features(url)
 
-    # Convert dict → DataFrame with same feature names
+    # ML prediction
     feature_df = pd.DataFrame([features])
-
-    # Predict
     prediction = model.predict(feature_df)[0]
     result = "Phishing" if prediction == 1 else "Legitimate"
 
-    return render_template("result.html", url=url, result=result, features=features)
+    # Risk score
+    risk_score = calculate_score(features)
+
+    return render_template("result.html", url=url, result=result, score=risk_score, features=features)
 
 if __name__ == "__main__":
     app.run(debug=True)
