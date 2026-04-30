@@ -1,12 +1,14 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Result</title>
+    <title>Analysis Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <h2>Analysis Result</h2>
     <p>URL: {{ url }}</p>
-    <p>Status: <strong>{{ result }}</strong></p>
-    <p>Risk Score: <strong>{{ score }}%</strong></p>
+    <p class="status">Status: <strong>{{ result }}</strong></p>
+    <p class="score">Risk Score: <strong>{{ score }}%</strong></p>
 
     <h3>Feature Breakdown:</h3>
     <ul>
