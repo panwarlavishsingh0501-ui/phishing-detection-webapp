@@ -17,7 +17,7 @@ def home():
 def check():
     url = request.form["url"]
 
-    # Extract features as dict
+    # Extract dict with only training features
     features = extract_features(url)
 
     # Convert dict → DataFrame with same feature names
@@ -27,7 +27,6 @@ def check():
     prediction = model.predict(feature_df)[0]
     result = "Phishing" if prediction == 1 else "Legitimate"
 
-    # Pass dict to template
     return render_template("result.html", url=url, result=result, features=features)
 
 if __name__ == "__main__":
